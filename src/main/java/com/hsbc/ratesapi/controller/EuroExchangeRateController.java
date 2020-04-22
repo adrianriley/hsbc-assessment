@@ -20,18 +20,18 @@ public class EuroExchangeRateController {
     /**
      * Get current EURO exchange rates.
      *
-     * @return
+     * @return current rates for Euro against GB pound, US dollar, Hong-Kong dollar
      */
-    @GetMapping("/rates/current")
+    @GetMapping({ "/", "/rates/current" })
     public String getCurrentRates(Model model) {
         model.addAttribute("rates", euroExchangeRateService.getCurrentExchangeRates());
         return "current";
     }
 
     /**
-     * Get historical EURO exchange rates 6 months on the same day of the month as today.
+     * Get historical EURO exchange rates for 6 months on the same day of the month as today.
      *
-     * @return
+     * @return rates for Euro against GB pound, US dollar, Hong-Kong dollar for the last 6 months
      */
     @GetMapping("/rates/history")
     public String getRates(Model model) {
@@ -39,7 +39,7 @@ public class EuroExchangeRateController {
         model.addAttribute("rates", rates);
         model.addAttribute("currencies",
                 rates.getDayRateReports().stream().flatMap(dayRateReport -> dayRateReport.getRates().keySet().stream())
-                        .collect(Collectors.toCollection(() -> new TreeSet<>())));
+                        .collect(Collectors.toCollection(TreeSet::new)));
         return "history";
     }
 }

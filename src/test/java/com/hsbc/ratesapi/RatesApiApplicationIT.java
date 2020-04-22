@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class RatesApiApplicationIT {
+class RatesApiApplicationIT {
 
     @LocalServerPort
     private int port;
@@ -29,7 +31,7 @@ public class RatesApiApplicationIT {
     @Test
     void getCurrentRates() {
         String html =
-                restTemplate.getForObject("http://localhost:" + port + "/rates/current", String.class);
+                withBasicAuth().getForObject("http://localhost:" + port + "/rates/current", String.class);
         assertThat(html).contains("EUR Exchange Rates");
         assertThat(html).contains("value=\"Rate History\"");
     }
@@ -37,8 +39,26 @@ public class RatesApiApplicationIT {
     @Test
     void getRates() {
         String html =
-                restTemplate.getForObject("http://localhost:" + port + "/rates/history", String.class);
+                withBasicAuth().getForObject("http://localhost:" + port + "/rates/history", String.class);
         assertThat(html).contains("EUR Exchange Rate History");
         assertThat(html).doesNotContain("<form");
+    }
+
+    @Test
+    void getCurrentRates_unauthorized() {
+        ResponseEntity responseEntity =
+                restTemplate.getForEntity("http://localhost:" + port + "/rates/current", String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Test
+    void getRates_unauthorized() {
+        ResponseEntity responseEntity =
+                restTemplate.getForEntity("http://localhost:" + port + "/rates/history", String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+    }
+
+    private TestRestTemplate withBasicAuth() {
+        return restTemplate.withBasicAuth("admin", "admin");
     }
 }

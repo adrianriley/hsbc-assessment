@@ -34,9 +34,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     public RateReport getExchangeRates(String fromCurrencyCode, LocalDate effectiveDate,
                                        String... toCurrencyCodes) {
 
-        RateReport rateReport = ratesApiClient.getExchangeRates(fromCurrencyCode, effectiveDate, toCurrencyCodes);
-
-        return rateReport;
+        return ratesApiClient.getExchangeRates(fromCurrencyCode, effectiveDate, toCurrencyCodes);
     }
 
     /**

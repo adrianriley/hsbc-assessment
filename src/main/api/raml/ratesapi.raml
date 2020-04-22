@@ -1,0 +1,119 @@
+#%RAML 1.0
+---
+title: ratesapi
+baseUri: http://ratesapi.ariley.co.uk/{version}
+version: v1
+
+/rates:
+  /current:
+    get:
+      description: get current euro exchange rates
+      responses:
+        200:
+          body:
+            application/html:
+              example: |
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>EUR Exchange Rates</title>
+                    <link href="/css/main.css" rel="stylesheet">
+                </head>
+                <body>
+                    <h1>EUR Exchange Rates</h1>
+                    <h2>2020-04-21</h2>
+                    <table>
+                        <tr>
+                        <th>Currency</th>
+                        <th>Rate</th>
+                        </tr>
+
+                        <tr><td>GBP</td><td>0.8812</td>
+
+                        <tr><td>HKD</td><td>8.3987</td>
+
+                        <tr><td>USD</td><td>1.0837</td>
+
+                    </table>
+                    <p/>
+                    <form action="/rates/history">
+                    <input type="submit" value="Rate History">
+                    </form>
+                </body>
+                </html>
+
+        401:
+          description: Unauthorized
+
+        404:
+          description: Resource not found
+
+        500:
+          description: Server error
+
+  /history:
+    get:
+      description: get last 6 months euro exchange rates
+      responses:
+        200:
+          body:
+            application/html:
+              example: |
+                <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>EUR Exchange Rates</title>
+                        <link href="/css/main.css" rel="stylesheet">
+                    </head>
+                    <body>
+                        <h1>EUR Exchange Rate History</h1>
+                        <table>
+                            <tr>
+                            <th>Currency</th>
+                            <th>2019-11-22</th>
+                            <th>2019-12-22</th>
+                            <th>2020-01-22</th>
+                            <th>2020-02-22</th>
+                            <th>2020-03-22</th>
+                            <th>2020-04-22</th>
+                            </tr>
+                            <tr>
+                            <td>GBP</td>
+                                <td>0.8598</td>
+                                <td>0.85133</td>
+                                <td>0.84445</td>
+                                <td>0.8351</td>
+                                <td>0.91028</td>
+                                <td>0.8812</td>
+                            </tr>
+                            <tr>
+                            <td>HKD</td>
+                                <td>8.6525</td>
+                                <td>8.6511</td>
+                                <td>8.617</td>
+                                <td>8.4117</td>
+                                <td>8.3056</td>
+                                <td>8.3987</td>
+                            </tr>
+                            <tr>
+                            <td>USD</td>
+                                <td>1.1058</td>
+                                <td>1.1097</td>
+                                <td>1.1088</td>
+                                <td>1.0801</td>
+                                <td>1.0707</td>
+                                <td>1.0837</td>
+                            </tr>
+                        </table>
+                    </body>
+                    </html>
+
+
+        401:
+          description: Unauthorized
+
+        404:
+          description: Resource not found
+
+        500:
+          description: Server error

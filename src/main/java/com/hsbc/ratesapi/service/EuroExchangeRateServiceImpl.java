@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 /**
  * Exchange rate retrieval service for current and historical Euro exchange rates against GB pound, US dollar and
@@ -45,14 +46,16 @@ public class EuroExchangeRateServiceImpl implements EuroExchangeRateService {
     @Override
     public CompoundExchangeRateReport getHistoricalExchangeRates() {
         CompoundExchangeRateReport compoundExchangeRateReport = new CompoundExchangeRateReport(EURO);
-        for (int i = 0; i < 6; i++) {
-            LocalDate effectiveDate = LocalDate.now().minusMonths(i);
-            RateReport rateReport = getExchangeRateReport(effectiveDate);
-            DayRateReport exchangeRateDayReport =
-                    new DayRateReport(effectiveDate, new TreeMap<>(rateReport.getRates()));
-            compoundExchangeRateReport.addDayRateReport(exchangeRateDayReport);
-        }
+        IntStream.range(0, 6)
+                .forEach(i -> addExchangeRates(LocalDate.now().minusMonths(i), compoundExchangeRateReport));
         return compoundExchangeRateReport;
+    }
+
+    private void addExchangeRates(LocalDate effectiveDate, CompoundExchangeRateReport compoundExchangeRateReport) {
+        RateReport rateReport = getExchangeRateReport(effectiveDate);
+        DayRateReport dayRateReport =
+                new DayRateReport(effectiveDate, new TreeMap<>(rateReport.getRates()));
+        compoundExchangeRateReport.addDayRateReport(dayRateReport);
     }
 
     /**
