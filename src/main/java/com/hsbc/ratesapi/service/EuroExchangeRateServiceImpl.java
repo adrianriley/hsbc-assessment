@@ -55,7 +55,11 @@ public class EuroExchangeRateServiceImpl implements EuroExchangeRateService {
         RateReport rateReport = getExchangeRateReport(effectiveDate);
         DayRateReport dayRateReport =
                 new DayRateReport(effectiveDate, new TreeMap<>(rateReport.getRates()));
-        compoundExchangeRateReport.addDayRateReport(dayRateReport);
+        try {
+            compoundExchangeRateReport.addDayRateReport(dayRateReport);
+        } catch (IllegalArgumentException e) {
+            throw new ServiceException("Multiple results for date in server response", e);
+        }
     }
 
     /**

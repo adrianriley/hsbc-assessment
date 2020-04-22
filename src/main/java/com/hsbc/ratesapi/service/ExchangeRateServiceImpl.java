@@ -3,6 +3,7 @@ package com.hsbc.ratesapi.service;
 import com.hsbc.ratesapi.client.RatesApiClient;
 import com.hsbc.ratesapi.model.RateReport;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 
@@ -33,8 +34,11 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     @Override
     public RateReport getExchangeRates(String fromCurrencyCode, LocalDate effectiveDate,
                                        String... toCurrencyCodes) {
-
-        return ratesApiClient.getExchangeRates(fromCurrencyCode, effectiveDate, toCurrencyCodes);
+        try {
+            return ratesApiClient.getExchangeRates(fromCurrencyCode, effectiveDate, toCurrencyCodes);
+        } catch (RestClientException e) {
+            throw new ServiceException("Failed to get exchange rates", e);
+        }
     }
 
     /**
@@ -46,6 +50,10 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
      */
     @Override
     public RateReport getCurrentExchangeRates(String fromCurrencyCode, String... toCurrencyCodes) {
-        return ratesApiClient.getCurrentExchangeRates(fromCurrencyCode, toCurrencyCodes);
+        try {
+            return ratesApiClient.getCurrentExchangeRates(fromCurrencyCode, toCurrencyCodes);
+        } catch (RestClientException e) {
+            throw new ServiceException("Failed to get exchange rates", e);
+        }
     }
 }

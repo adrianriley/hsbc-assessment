@@ -1,6 +1,5 @@
 package com.hsbc.ratesapi.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
@@ -22,17 +21,6 @@ public class CompoundExchangeRateReport {
 
     private final Map<LocalDate, DayRateReport> dayRateReports = new TreeMap<>();
 
-    /**
-     * Required for JSON deserialization, factory method to create instance.
-     *
-     * @param base base currency
-     * @return
-     */
-    @JsonCreator
-    public static CompoundExchangeRateReport create(@JsonProperty("base") String base) {
-        return new CompoundExchangeRateReport(base);
-    }
-
     public CompoundExchangeRateReport(@JsonProperty("base") String base) {
         this.base = base;
     }
@@ -50,9 +38,6 @@ public class CompoundExchangeRateReport {
         return Collections.unmodifiableCollection(dayRateReports.values());
     }
 
-    public void setDayRateReports(Collection<DayRateReport> dayRateReports) {
-        dayRateReports.forEach(this::addDayRateReport);
-    }
 
     /**
      * Add a new exchange rate day report. Only one exchange rate for any particular date is allowed.
