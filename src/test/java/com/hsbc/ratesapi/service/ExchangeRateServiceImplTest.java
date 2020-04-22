@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.client.RestClientException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -100,6 +102,26 @@ class ExchangeRateServiceImplTest {
         RateReport exchangeRateReport = getCurrentExchangeRates();
 
         thenExchangeRateReportIsPopulatedWithRates(exchangeRateReport, LocalDate.now());
+    }
+
+    @Test
+    void getExchangeRates_exceptionThrownByClient_thorwsServiceException() {
+        given(ratesApiClient.getExchangeRates(any(), any(), any()))
+                .willThrow(RestClientException.class);
+
+        thenThrownBy(() -> exchangeRateService
+                .getExchangeRates(EURO, effectiveDate, GB_POUND, US_DOLLAR, HONG_KONG_DOLLAR))
+                .isInstanceOf(ServiceException.class);
+    }
+
+    @Test
+    void getCurrentExchangeRates_exceptionThrownByClient_thorwsServiceException() {
+        given(ratesApiClient.getCurrentExchangeRates(any(), any()))
+                .willThrow(RestClientException.class);
+
+        thenThrownBy(() -> exchangeRateService
+                .getCurrentExchangeRates(EURO, GB_POUND, US_DOLLAR, HONG_KONG_DOLLAR))
+                .isInstanceOf(ServiceException.class);
     }
 
     private RateReport getExchangeRates() {

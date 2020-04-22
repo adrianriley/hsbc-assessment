@@ -3,7 +3,6 @@ package com.hsbc.ratesapi.service;
 import com.hsbc.ratesapi.client.RatesApiClient;
 import com.hsbc.ratesapi.model.RateReport;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 
@@ -36,7 +35,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                                        String... toCurrencyCodes) {
         try {
             return ratesApiClient.getExchangeRates(fromCurrencyCode, effectiveDate, toCurrencyCodes);
-        } catch (RestClientException e) {
+        } catch (Exception e) {
             throw new ServiceException("Failed to get exchange rates", e);
         }
     }
@@ -52,7 +51,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     public RateReport getCurrentExchangeRates(String fromCurrencyCode, String... toCurrencyCodes) {
         try {
             return ratesApiClient.getCurrentExchangeRates(fromCurrencyCode, toCurrencyCodes);
-        } catch (RestClientException e) {
+        } catch (Exception e) {
             throw new ServiceException("Failed to get exchange rates", e);
         }
     }

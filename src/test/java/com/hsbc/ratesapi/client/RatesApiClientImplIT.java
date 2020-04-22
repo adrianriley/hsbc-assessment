@@ -17,12 +17,12 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = RatesApiClientIT.Config.class)
+@ContextConfiguration(classes = RatesApiClientImplIT.Config.class)
 @TestPropertySource(properties = {
         "ratesapi.past.rates.url=https://api.ratesapi.io/api/{date}?base={base}&symbols={symbols}",
         "ratesapi.current.rates.url=https://api.ratesapi.io/api/latest?base={base}&symbols={symbols}"
 })
-public class RatesApiClientIT {
+class RatesApiClientImplIT {
     @Autowired
     private RatesApiClient ratesApiClient;
 
@@ -59,7 +59,7 @@ public class RatesApiClientIT {
 
         @Bean
         public RatesApiClient ratesApiClient() {
-            return new RatesApiClient(restTemplate());
+            return new RatesApiClientImpl(restTemplate());
         }
     }
 }

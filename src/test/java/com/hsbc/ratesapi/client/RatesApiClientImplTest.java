@@ -20,12 +20,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class RatesApiClientTest {
+class RatesApiClientImplTest {
 
     private final String currentRatesUrlTemplate = "https://api.ratesapi.io/api/latest?base={base}&symbols={symbols}";
     private final String pastRatesUrlTemplate = "https://api.ratesapi.io/api/{date}?base={base}&symbols={symbols}";
     @InjectMocks
-    private RatesApiClient ratesApiClient;
+    private RatesApiClientImpl ratesApiClient;
 
     @Mock
     private RestTemplate restTemplate;
