@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Wrapper for exceptions thrown in service classes
  */
-@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 public class ServiceException extends RuntimeException {
     /**
      * Constructor

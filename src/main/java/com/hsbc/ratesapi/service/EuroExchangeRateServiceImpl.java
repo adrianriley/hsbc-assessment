@@ -69,6 +69,6 @@ public class EuroExchangeRateServiceImpl implements EuroExchangeRateService {
      * @return the exchange rates requested
      */
     private RateReport getExchangeRateReport(LocalDate effectiveDate) {
-        return exchangeRateService.getExchangeRates(EURO, effectiveDate, GB_POUND, US_DOLLAR, HONG_KONG_DOLLAR);
+        return null; //exchangeRateService.getExchangeRates(EURO, effectiveDate, GB_POUND, US_DOLLAR, HONG_KONG_DOLLAR);
     }
 }
