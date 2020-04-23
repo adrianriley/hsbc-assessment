@@ -12,8 +12,8 @@ public interface RatesApiClient {
      * Get exchange rates for a currency against other currencies on the given date.
      *
      * @param baseCurrencyCode base currency code
-     * @param effectiveDate date
-     * @param currencyCodes currency codes to retrieve rates for
+     * @param effectiveDate    date
+     * @param currencyCodes    currency codes to retrieve rates for
      * @return exchange rates on the given date
      */
     RateReport getExchangeRates(String baseCurrencyCode, LocalDate effectiveDate, String... currencyCodes);
@@ -22,7 +22,7 @@ public interface RatesApiClient {
      * Get current exchange rates for a currency against other currencies.
      *
      * @param baseCurrencyCode base currency code
-     * @param currencyCodes currency codes to retrieve rates for
+     * @param currencyCodes    currency codes to retrieve rates for
      * @return current exchange rates
      */
     RateReport getCurrentExchangeRates(String baseCurrencyCode, String... currencyCodes);

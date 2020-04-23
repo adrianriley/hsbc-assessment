@@ -20,8 +20,6 @@
         </c:forEach>
     </table>
     <p/>
-    <form action="/rates/history">
-    <input type="submit" value="Rate History">
-    </form>
+    <button onclick="window.location.href='${historyUrl}'">Rate History</button>
 </body>
 </html>
