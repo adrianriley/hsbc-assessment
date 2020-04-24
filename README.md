@@ -21,3 +21,6 @@ http://localhost:8080/rates-display/rates/EUR/history?currencies=GBP,USD,HKD
 For the RAML describing the service, open 
 
 http://localhost:8080/raml/rates-display.raml
+
+The application is secured with basic authentication. The only authorised username is `admin`,
+password `admin`.
