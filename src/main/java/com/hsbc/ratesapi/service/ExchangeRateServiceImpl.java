@@ -47,13 +47,15 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
      * for the same day of the month.
      *
      * @param fromCurrencyCode the base currency
+     * @param numberOfMonths number of months for which history is required
      * @param toCurrencyCodes  the currency codes for which to get exchange rates
      * @return a CompoundExchangeRateReport containing the requested exchange rates
      */
     @Override
-    public CompoundExchangeRateReport getHistoricalExchangeRates(String fromCurrencyCode, String... toCurrencyCodes) {
+    public CompoundExchangeRateReport getHistoricalExchangeRates(String fromCurrencyCode, int numberOfMonths,
+                                                                 String... toCurrencyCodes) {
         CompoundExchangeRateReport compoundExchangeRateReport = new CompoundExchangeRateReport(fromCurrencyCode);
-        IntStream.range(0, 6)
+        IntStream.range(0, numberOfMonths)
                 .forEach(i -> addExchangeRates(compoundExchangeRateReport, fromCurrencyCode,
                         LocalDate.now().minusMonths(i), toCurrencyCodes));
         return compoundExchangeRateReport;

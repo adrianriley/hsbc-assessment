@@ -22,8 +22,10 @@ public interface ExchangeRateService {
      * for the same day of the month.
      *
      * @param fromCurrencyCode the base currency
+     * @param numberOfMonths number of months for which history is required
      * @param toCurrencyCodes  the currency codes for which to get exchange rates
      * @return a {@link CompoundExchangeRateReport} containing the requested exchange rates
      */
-    CompoundExchangeRateReport getHistoricalExchangeRates(String fromCurrencyCode, String... toCurrencyCodes);
+    CompoundExchangeRateReport getHistoricalExchangeRates(String fromCurrencyCode, int numberOfMonths,
+                                                          String... toCurrencyCodes);
 }

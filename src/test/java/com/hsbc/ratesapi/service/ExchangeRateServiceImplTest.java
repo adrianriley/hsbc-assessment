@@ -110,7 +110,7 @@ class ExchangeRateServiceImplTest {
                 .willThrow(RestClientException.class);
 
         thenThrownBy(() -> exchangeRateService
-                .getHistoricalExchangeRates(EURO, GB_POUND, US_DOLLAR, HONG_KONG_DOLLAR))
+                .getHistoricalExchangeRates(EURO, 6, GB_POUND, US_DOLLAR, HONG_KONG_DOLLAR))
                 .isInstanceOf(ServiceException.class);
     }
 
@@ -125,7 +125,7 @@ class ExchangeRateServiceImplTest {
     }
 
     private CompoundExchangeRateReport getHistoricalExchangeRates() {
-        return exchangeRateService.getHistoricalExchangeRates(EURO, GB_POUND, US_DOLLAR, HONG_KONG_DOLLAR);
+        return exchangeRateService.getHistoricalExchangeRates(EURO, 6, GB_POUND, US_DOLLAR, HONG_KONG_DOLLAR);
     }
 
     private RateReport getCurrentExchangeRates() {

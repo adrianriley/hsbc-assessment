@@ -36,9 +36,12 @@ public class RatesDisplayController {
     }
 
     @GetMapping("/rates/{baseCurrency}/history")
-    public String getRatesHistory(@PathVariable String baseCurrency, @RequestParam String[] currencies, Model model) {
+    public String getRatesHistory(@PathVariable String baseCurrency,
+                                  @RequestParam(name = "months", required = false, defaultValue = "6")
+                                          int numberOfMonths,
+                                  @RequestParam String[] currencies, Model model) {
         CompoundExchangeRateReport rates =
-                exchangeRateService.getHistoricalExchangeRates(baseCurrency, currencies);
+                exchangeRateService.getHistoricalExchangeRates(baseCurrency, numberOfMonths, currencies);
         model.addAttribute("rates", rates);
         model.addAttribute("currencies",
                 rates.getDayRateReports().stream().flatMap(dayRateReport -> dayRateReport.getRates().keySet().stream())

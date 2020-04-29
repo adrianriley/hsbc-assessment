@@ -3,7 +3,6 @@ package com.hsbc.ratesapi.controller;
 import com.hsbc.ratesapi.model.CompoundExchangeRateReport;
 import com.hsbc.ratesapi.model.RateReport;
 import com.hsbc.ratesapi.service.ExchangeRateService;
-import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +18,7 @@ import java.net.URISyntaxException;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -60,13 +60,13 @@ class RatesDisplayControllerTest {
     @Test
     void getRatesHistory() {
         CompoundExchangeRateReport compoundExchangeRateReport = mock(CompoundExchangeRateReport.class);
-        given(exchangeRateService.getHistoricalExchangeRates(any(), any())).willReturn(compoundExchangeRateReport);
+        given(exchangeRateService.getHistoricalExchangeRates(any(), anyInt(), any())).willReturn(compoundExchangeRateReport);
 
-        String result = controller.getRatesHistory("EUR", new String[]{"GBP", "USD"}, model);
+        String result = controller.getRatesHistory("EUR", 6, new String[]{"GBP", "USD"}, model);
 
         then(result).isEqualTo("history");
 
-        verify(exchangeRateService).getHistoricalExchangeRates("EUR", "GBP", "USD");
+        verify(exchangeRateService).getHistoricalExchangeRates("EUR", 6, "GBP", "USD");
         verify(model).addAttribute("rates", compoundExchangeRateReport);
 
     }
